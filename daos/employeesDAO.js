@@ -3,11 +3,15 @@ var MongoClient = require('mongodb').MongoClient
     , q = require('q');
 
 
-if(process.env["LAST_COMMIT"]){	
-	connString = 'mongodb://127.0.0.1:27017/' + process.env["LAST_COMMIT"]
-} else {
-	connString = 'mongodb://127.0.0.1:27017/test'
-}
+// if(process.env["LAST_COMMIT"]){	
+// 	connString = 'mongodb://127.0.0.1:27017/' + process.env["LAST_COMMIT"]
+// } else {
+//	connString = 'mongodb://ec2-54-91-88-251.compute-1.amazonaws.com:27017/test'
+//connString = 'mongodb://ec2-54-91-88-251.compute-1.amazonaws.com:27017/test_db_c90f558c2c62e56e8f07ae6decb957875e4fbd08'
+//connString = 'mongodb://127.0.0.1:27017/test'
+//}
+
+connString='mongodb://ec2-54-81-110-249.compute-1.amazonaws.com:27017/test_db';
 
 var EmployeeDAO = (function(client, connString, q, collectionName){
 	var db, connect, getById, getAll, getManagees;

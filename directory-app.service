@@ -1,12 +1,11 @@
-[Service]
-ExecStart=/usr/bin/node /src/server.js
-Restart=always
-StandardOutput=syslog
-StandardError=syslog
-SyslogIdentifier=node-sample
-User=root
-Group=root
-Environment=NODE_ENV=production
+[Unit]
+Description=nginx
 
-[Install]
-WantedBy=multi-user.target
+[Service]
+EnvironmentFile=/etc/environment
+ExecStartPre=/usr/bin/docker pull sinistersig/directory
+ExecStart=/usr/bin/docker run --rm --name directory -p 5000:5000 sinistersig/directory
+ExecStop=/usr/bin/docker kill sinistersig/directory
+
+[X-Fleet]
+X-Conflicts=directory-app.service
