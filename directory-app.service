@@ -1,11 +1,13 @@
 [Unit]
-Description=nginx
+Description=Directory App
 
 [Service]
 EnvironmentFile=/etc/environment
 ExecStartPre=/usr/bin/docker pull sinistersig/directory
-ExecStart=/usr/bin/docker run --rm --name directory -p 5000:5000 sinistersig/directory
-ExecStop=/usr/bin/docker kill sinistersig/directory
+ExecStart=/usr/bin/docker run --rm --name %p -p %i:5000 sinistersig/directory
+ExecStartPost=/usr/bin/etcdctl set /app/%p/%i ${COREOS_PRIVATE_IPV4}:%i
+ExecStop=/usr/bin/docker kill %p
+ExecStopPost=/usr/bin/etcdctl rm /app/%p/%i
 
 [X-Fleet]
-X-Conflicts=directory-app.service
+X-Conflicts=%p@%i.service
